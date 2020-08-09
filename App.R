@@ -35,7 +35,7 @@ server <- function(input, output, session) {
       )
       # tags$li(
       #   class = "dropdown",
-      #   h1(class="title-header", "Texto ou imagem a direita!")
+      #   
       # )
     )
   })
@@ -46,7 +46,7 @@ server <- function(input, output, session) {
     shinydashboard::dashboardSidebar(
       sidebarMenu(
         id = "tabs",
-        # Atualizar - Menu Lateral 
+        # Menu Lateral 
         menuItem("Início", tabName = "tab_inicio", icon = icon("home"))
       )
     )
@@ -61,13 +61,12 @@ server <- function(input, output, session) {
         tags$script(
           HTML('$(document).ready(function() {
           $("body").addClass("sidebar-collapse");
+          $(".sidebar-menu > li").first().addClass("active");
                })')
         ),
-        tags$style('
-                   .skin-blue .main-header .logo:hover {
+        tags$style('.skin-blue .main-header .logo:hover {
                    background: #033653;
-                   }
-                   ')
+                   }')
       ),
       useShinyjs(),
       # Inicio - Conteúdo

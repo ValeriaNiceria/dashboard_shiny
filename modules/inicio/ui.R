@@ -10,7 +10,7 @@ ui_inicio <- function(id) {
     fluidRow(
       column(
         width = 12,
-        h3(class="text-center", "Atualizar - Primeira página!")
+        h3(class="text-center", "Primeira página!")
       )
     )
   )
