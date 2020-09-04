@@ -12,6 +12,7 @@ library(shinycssloaders)
 library(shinyWidgets)
 library(shinyalert)
 library(shinyBS)
+library(esquisse)
 
 # Carregando as funções --------------------------------------------------------
 
@@ -19,6 +20,7 @@ library(shinyBS)
 # Carregando os módulos --------------------------------------------------------
 source("./modules/inicio/ui.R", encoding = "UTF-8")
 source("./modules/inicio/server.R", encoding = "UTF-8")
+
 
 
 # Carregando os dados ----------------------------------------------------------

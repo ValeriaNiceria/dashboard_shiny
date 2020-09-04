@@ -47,7 +47,8 @@ server <- function(input, output, session) {
       sidebarMenu(
         id = "tabs",
         # Menu Lateral 
-        menuItem("Início", tabName = "tab_inicio", icon = icon("home"))
+        menuItem("Início", tabName = "tab_inicio", icon = icon("home")),
+        menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("home"))
       )
     )
   })
@@ -73,6 +74,32 @@ server <- function(input, output, session) {
       tabItems(
         ui_inicio(
           id = "tab_inicio"
+        ),
+        tabItem(
+          tabName = "tab_esquisse",  
+          style="min-height: 1000px;",
+          fluidRow(
+            column(
+              width = 4,
+              radioButtons(
+                inputId = "data", 
+                label = "Data to use:", 
+                choices = c("iris", "mtcars"),
+                inline = TRUE
+              ),
+            )
+          ),
+          fluidRow(
+            column(
+              width = 12,
+              esquisserUI(
+                id = "esquisse", 
+                header = FALSE, # dont display gadget title
+                choose_data = FALSE, # dont display button to change data,
+                container = esquisseContainer(height = "500px")
+              )
+            )
+          )
         )
         
       )
@@ -105,6 +132,24 @@ server <- function(input, output, session) {
     module = server_inicio,
     id = "tab_inicio"
   )
+  
+  
+  data_r <- reactiveValues(data = iris, name = "iris")
+  
+  observeEvent(input$data, {
+    print(paste(input$data))
+    if (length(input$data) == 0 | input$data == "iris") {
+      data_r$data <- iris
+      data_r$name <- "iris"
+    } else {
+      data_r$data <- mtcars
+      data_r$name <- "mtcars"
+    }
+  })
+  
+  callModule(module = esquisserServer, 
+             id = "esquisse",
+             data = data_r)
   
   
 }
