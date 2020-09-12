@@ -21,6 +21,9 @@ library(esquisse)
 source("./modules/inicio/ui.R", encoding = "UTF-8")
 source("./modules/inicio/server.R", encoding = "UTF-8")
 
+source("./modules/esquisse/ui.R", encoding = "UTF-8")
+source("./modules/esquisse/server.R", encoding = "UTF-8")
+
 
 
 # Carregando os dados ----------------------------------------------------------
