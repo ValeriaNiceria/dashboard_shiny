@@ -3,6 +3,7 @@ source("./global.R", encoding = "UTF-8")
 
 
 header <- uiOutput("ui_header")
+# sidebar <- uiOutput("ui_sidebar")
 body <- uiOutput("ui_body")
 
 
@@ -44,6 +45,20 @@ server <- function(input, output, session) {
   })
   
   
+  # Sidebar UI
+  # output$ui_sidebar <- renderUI({
+  #   shinydashboard::dashboardSidebar(
+  #     sidebarMenu(
+  #       id = "tabs",
+  #       # Menu Lateral 
+  #       menuItem("Início", tabName = "tab_inicio", icon = icon("home")),
+  #       menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("chart-line"))
+  #     )
+  #   )
+  #   
+  # })
+  # 
+  
   
   # Body UI
   output$ui_body <- renderUI({
@@ -76,6 +91,19 @@ server <- function(input, output, session) {
   })
   
   
+  observeEvent(input$tabs, {
+    
+    tab_menu_selected <- input$tabs
+    
+    print(tab_menu_selected)
+    
+    callModule(
+      module = server_esquisse, 
+      id = "tab_esquisse",
+      tabs = tab_menu_selected
+    )
+    
+  })
   
   
   # Output's ----------------------------------------------------------------
@@ -86,17 +114,17 @@ server <- function(input, output, session) {
   )
   
   
-  observeEvent(input$tabs, {
-    
-    tab_menu_selected <- input$tabs
-    
-    callModule(
-      module = server_esquisse, 
-      id = "tab_esquisse",
-      tabs = tab_menu_selected
-    )
-    
-  })
+  # observeEvent(input$tabs, {
+  #   
+  #   tab_menu_selected <- input$tabs
+  #   
+  #   callModule(
+  #     module = server_esquisse, 
+  #     id = "tab_esquisse",
+  #     tabs = tab_menu_selected
+  #   )
+  #   
+  # })
   
   
  
