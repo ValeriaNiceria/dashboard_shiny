@@ -1,0 +1,12 @@
+name: dashboard_shiny
+title: dashboard_shiny
+username:
+account: valerianiceria
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2797848
+bundleId: 3622810
+url: https://valerianiceria.shinyapps.io/dashboard_shiny/
+when: 1599944485.19686
+asMultiple: FALSE
+asStatic: FALSE
