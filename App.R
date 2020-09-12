@@ -3,6 +3,7 @@ source("./global.R", encoding = "UTF-8")
 
 
 ui <- dashboardPagePlus(
+  title = "Dashboard Shiny",
   shinydashboardPlus::dashboardHeaderPlus(
     title = tagList(
       img(
