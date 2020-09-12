@@ -6,7 +6,10 @@ server_esquisse <- function(input, output, session, tabs) {
   dados_plot <- reactiveValues(data = NULL, name = NULL)
   
   observe({
-    if (input$input_dados == "iris") {
+    if (length(input$input_dados) == 0) {
+      dados_plot$data <- iris
+      dados_plot$name <- "iris"
+    } else if (input$input_dados == "iris") {
       dados_plot$data <- iris
       dados_plot$name <- "iris"
     } else {
