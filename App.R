@@ -21,7 +21,7 @@ ui <- dashboardPagePlus(
   shinydashboard::dashboardSidebar(
     sidebarMenu(id = "tabs",
                 # menuItem("inicio", tabName = "inicio", icon = icon("home")),
-                menuItem("Esquisse", tabName = "esquisse", icon = icon("line-chart"))
+                menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("line-chart"))
     )
   ),
   shinydashboard::dashboardBody(
@@ -40,34 +40,8 @@ ui <- dashboardPagePlus(
     ),
     useShinyjs(),
     tabItems(
-      tabItem(
-        tabName = "esquisse",
-        fluidRow(
-          column(
-            width = 4,
-            style="margin-top: -10px;",
-            radioGroupButtons(
-              "input_dados", 
-              label = "Selecione a base de dados:", 
-              choices = c(
-                "Iris" = "iris", 
-                "MTCars" = "mtcars"), 
-              selected = "iris",
-              status = "primary"
-            )
-          )
-        ),
-        fluidRow(
-          column(
-            width=12,
-            style = "min-height: 300px; max-height = 400px; height = 400px",
-            esquisserUI(
-              id = "plot_esquisse",
-              header = FALSE,
-              choose_data = FALSE
-            )
-          )
-        )
+      ui_esquisse(
+        id = "tab_esquisse"
       )
     )
   )
@@ -75,26 +49,12 @@ ui <- dashboardPagePlus(
 
 server <- function(input, output) {
   
-  dados_plot <- reactiveValues(data = NULL, name = NULL)
-  observe({
-    if (input$input_dados == "iris") {
-      dados_plot$data <- iris
-      dados_plot$name <- "iris"
-    } else {
-      dados_plot$data <- mtcars
-      dados_plot$name <- "mtcars"
-    }
-  })
   
-  observeEvent(input$tabs, {
-    if (input$tabs == "esquisse") {
-      callModule(
-        module = esquisserServer, 
-        id = "plot_esquisse", 
-        data = dados_plot
-      )
-    }
-  })
+  callModule(
+    module = server_esquisse, 
+    id = "tab_esquisse",
+    tabs = input$tabs
+  )
 
   
 }

@@ -1,60 +1,36 @@
-ui <- fluidPage(
+
+ui_esquisse <- function(id) {
   
-  titlePanel("Use esquisse as a Shiny module"),
+  ns <- NS(id)
   
-  sidebarLayout(
-    sidebarPanel(
-      radioButtons(
-        inputId = "data", 
-        label = "Data to use:", 
-        choices = c("iris", "mtcars"),
-        inline = TRUE
+  tabItem(
+    tabName = "tab_esquisse",
+    fluidRow(
+      column(
+        width = 4,
+        style="margin-top: -10px;",
+        radioGroupButtons(
+          ns("input_dados"), 
+          label = "Selecione a base de dados:", 
+          choices = c(
+            "Iris" = "iris", 
+            "MTCars" = "mtcars"), 
+          selected = "iris",
+          status = "primary"
+        )
       )
     ),
-    mainPanel(
-      tabsetPanel(
-        tabPanel(
-          title = "esquisse",
-          esquisserUI(
-            id = "esquisse", 
-            header = FALSE, # dont display gadget title
-            choose_data = FALSE # dont display button to change data
-          )
-        ),
-        tabPanel(
-          title = "output",
-          verbatimTextOutput("module_out")
+    fluidRow(
+      column(
+        width=12,
+        style = "min-height: 300px; max-height = 400px; height = 400px",
+        esquisserUI(
+          id = ns("plot_esquisse"),
+          header = FALSE,
+          choose_data = FALSE
         )
       )
     )
   )
-)
-
-
-server <- function(input, output, session) {
-  
-  data_r <- reactiveValues(data = iris, name = "iris")
-  
-  observeEvent(input$data, {
-    if (input$data == "iris") {
-      data_r$data <- iris
-      data_r$name <- "iris"
-    } else {
-      data_r$data <- mtcars
-      data_r$name <- "mtcars"
-    }
-  })
-  
-  result <- callModule(
-    module = esquisserServer,
-    id = "esquisse",
-    data = data_r
-  )
-  
-  output$module_out <- renderPrint({
-    str(reactiveValuesToList(result))
-  })
   
 }
-
-shinyApp(ui, server)
