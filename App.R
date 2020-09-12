@@ -2,122 +2,101 @@
 source("./global.R", encoding = "UTF-8")
 
 
-header <- uiOutput("ui_header")
-sidebar <- uiOutput("ui_sidebar")
-body <- uiOutput("ui_body")
-
-
 ui <- dashboardPagePlus(
-  title = "Dashboard Shiny",
-  header,
-  sidebar,
-  body
-)
-
-
-server <- function(input, output, session) {
-  
-  # Header UI
-  output$ui_header <- renderUI({
-    shinydashboardPlus::dashboardHeaderPlus(
-      title = tagList(
-        img(
-          class= "logo-lg", 
-          src="img/banner.png", 
-          width = "100%", 
-          style="padding: 10px; margin: 0px auto;"
-        ),
-        img(
-          class="logo-mini", 
-          style="width: 42px; margin-left: -10px; margin-top: 5px;", 
-          src = "img/favicon.png"
-        )
-      )
-      # tags$li(
-      #   class = "dropdown",
-      #   
-      # )
-    )
-  })
-  
-  
-  # Sidebar UI
-  output$ui_sidebar <- renderUI({
-    shinydashboard::dashboardSidebar(
-      sidebarMenu(
-        id = "tabs",
-        # Menu Lateral 
-        menuItem("Início", tabName = "tab_inicio", icon = icon("home")),
-        menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("home"))
+  shinydashboardPlus::dashboardHeaderPlus(
+    title = tagList(
+      img(
+        class= "logo-lg", 
+        src="img/banner.png", 
+        width = "100%", 
+        style="padding: 10px; margin: 0px auto;"
+      ),
+      img(
+        class="logo-mini", 
+        style="width: 42px; margin-left: -10px; margin-top: 5px;", 
+        src = "img/favicon.png"
       )
     )
-  })
-  
-  # Body UI
-  output$ui_body <- renderUI({
-    shinydashboard::dashboardBody(
-      tags$head(
-        tags$link(rel = "shortcut icon", href = "img/favicon.png"),
-        tags$link(rel = "stylesheet", type = "text/css", href = "css/style.css"),
-        tags$script(
-          HTML('$(document).ready(function() {
+  ),
+  shinydashboard::dashboardSidebar(
+    sidebarMenu(id = "tabs",
+                # menuItem("inicio", tabName = "inicio", icon = icon("home")),
+                menuItem("Esquisse", tabName = "esquisse", icon = icon("line-chart"))
+    )
+  ),
+  shinydashboard::dashboardBody(
+    tags$head(
+      tags$link(rel = "shortcut icon", href = "img/favicon.png"),
+      tags$link(rel = "stylesheet", type = "text/css", href = "css/style.css"),
+      tags$script(
+        HTML('$(document).ready(function() {
           $("body").addClass("sidebar-collapse");
           $(".sidebar-menu > li").first().addClass("active");
                })')
-        ),
-        tags$style('.skin-blue .main-header .logo:hover {
+      ),
+      tags$style('.skin-blue .main-header .logo:hover {
                    background: #033653;
                    }')
-      ),
-      useShinyjs(),
-      # Inicio - Conteúdo
-      tabItems(
-        ui_inicio(
-          id = "tab_inicio"
+    ),
+    useShinyjs(),
+    tabItems(
+      tabItem(
+        tabName = "esquisse",
+        fluidRow(
+          column(
+            width = 4,
+            style="margin-top: -10px;",
+            radioGroupButtons(
+              "input_dados", 
+              label = "Selecione a base de dados:", 
+              choices = c(
+                "Iris" = "iris", 
+                "MTCars" = "mtcars"), 
+              selected = "iris",
+              status = "primary"
+            )
+          )
         ),
-        ui_esquisse(
-          id = "tab_esquisse"
+        fluidRow(
+          column(
+            width=12,
+            style = "min-height: 300px; max-height = 400px; height = 400px",
+            esquisserUI(
+              id = "plot_esquisse",
+              header = FALSE,
+              choose_data = FALSE
+            )
+          )
         )
-        
       )
-      
     )
+  )
+)
+
+server <- function(input, output) {
+  
+  dados_plot <- reactiveValues(data = NULL, name = NULL)
+  observe({
+    if (input$input_dados == "iris") {
+      dados_plot$data <- iris
+      dados_plot$name <- "iris"
+    } else {
+      dados_plot$data <- mtcars
+      dados_plot$name <- "mtcars"
+    }
   })
   
-  
-  
-  ## Observe's -----------------------------------------------------------------
-  
-  
-  
-  
-  
-  
-  
-  ## Reactive's ----------------------------------------------------------------
-  
-  
-  
-  
-  
-  
-  
-  ## Output's  -----------------------------------------------------------------
-  
-  
-  callModule(
-    module = server_inicio,
-    id = "tab_inicio"
-  )
-  
-  
-  callModule(
-    module = server_esquisse,
-    id = "tab_esquisse"
-  )
- 
+  observeEvent(input$tabs, {
+    if (input$tabs == "esquisse") {
+      callModule(
+        module = esquisserServer, 
+        id = "plot_esquisse", 
+        data = dados_plot
+      )
+    }
+  })
+
   
 }
 
-
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
