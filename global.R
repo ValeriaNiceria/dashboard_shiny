@@ -10,8 +10,6 @@ library(shinyjs)
 library(htmlwidgets)
 library(shinycssloaders)
 library(shinyWidgets)
-library(shinyalert)
-library(shinyBS)
 library(esquisse)
 library(DT)
 
