@@ -14,7 +14,7 @@ ui <- dashboardPagePlus(
     sidebarMenu(
       id = "tabs",
       # Menu Lateral 
-      menuItem("Tabelas", tabName = "tab_inicio", icon = icon("table"),
+      menuItem("Tabelas", icon = icon("table"),
                menuSubItem("DT", tabName = "tab_tabela_dt")),
       menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("chart-line"))
     )
@@ -76,16 +76,16 @@ server <- function(input, output, session) {
           ),
           tags$style('
           .skin-blue .main-header .logo:hover {
-                       background: #033653;
+            background: #033653;
           }
-          
-          
+              
+            
           .skin-blue .sidebar-menu>li>.treeview-menu {
-          margin: 0 1px;
-          background: #0F4A6C;
+            margin: 0 1px;
+            background: #0F4A6C;
           }
                      
-                     ')
+         ')
         ),
         useShinyjs(),
         tabItems(
