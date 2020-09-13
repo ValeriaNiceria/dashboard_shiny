@@ -14,7 +14,8 @@ ui <- dashboardPagePlus(
     sidebarMenu(
       id = "tabs",
       # Menu Lateral 
-      menuItem("Início", tabName = "tab_inicio", icon = icon("home")),
+      menuItem("Tabelas", tabName = "tab_inicio", icon = icon("table"),
+               menuSubItem("DT", tabName = "tab_tabela_dt")),
       menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("chart-line"))
     )
   ),
@@ -73,14 +74,23 @@ server <- function(input, output, session) {
               $(".sidebar-menu > li").first().addClass("active");
                    })')
           ),
-          tags$style('.skin-blue .main-header .logo:hover {
+          tags$style('
+          .skin-blue .main-header .logo:hover {
                        background: #033653;
-                       }')
+          }
+          
+          
+          .skin-blue .sidebar-menu>li>.treeview-menu {
+          margin: 0 1px;
+          background: #0F4A6C;
+          }
+                     
+                     ')
         ),
         useShinyjs(),
         tabItems(
-          ui_inicio(
-            id = "tab_inicio"
+          ui_tabela_dt(
+            id = "tab_tabela_dt"
           ),
           ui_esquisse(
             id = "tab_esquisse"
@@ -91,11 +101,19 @@ server <- function(input, output, session) {
   })
   
   
+  
+  # Output's ----------------------------------------------------------------
+  
+  
+  callModule(
+    module = server_tabela_dt, 
+    id = "tab_tabela_dt"
+  )
+  
+  
   observeEvent(input$tabs, {
     
     tab_menu_selected <- input$tabs
-    
-    print(tab_menu_selected)
     
     callModule(
       module = server_esquisse, 
@@ -106,26 +124,8 @@ server <- function(input, output, session) {
   })
   
   
-  # Output's ----------------------------------------------------------------
   
-  callModule(
-    module = server_inicio, 
-    id = "tab_inicio"
-  )
-  
-  
-  # observeEvent(input$tabs, {
-  #   
-  #   tab_menu_selected <- input$tabs
-  #   
-  #   callModule(
-  #     module = server_esquisse, 
-  #     id = "tab_esquisse",
-  #     tabs = tab_menu_selected
-  #   )
-  #   
-  # })
-  
+
   
  
 

@@ -18,13 +18,14 @@ library(esquisse)
 
 
 # Carregando os módulos --------------------------------------------------------
-source("./functions/funcoes.R", encoding = "UTF-8")
-
-source("./modules/inicio/ui.R", encoding = "UTF-8")
-source("./modules/inicio/server.R", encoding = "UTF-8")
+source("./functions/function.R", encoding = "UTF-8")
 
 source("./modules/esquisse/ui.R", encoding = "UTF-8")
 source("./modules/esquisse/server.R", encoding = "UTF-8")
+
+source("./modules/tabela_dt/ui.R", encoding = "UTF-8")
+source("./modules/tabela_dt/server.R", encoding = "UTF-8")
+
 
 
 

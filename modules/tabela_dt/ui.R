@@ -1,10 +1,10 @@
 
-ui_inicio <- function(id) {
+ui_tabela_dt <- function(id) {
   
   ns <- NS(id)
   
   tabItem(
-    tabName = "tab_inicio",  
+    tabName = "tab_tabela_dt",  
     style="min-height: 1000px;",
     fluidRow(
       column(
