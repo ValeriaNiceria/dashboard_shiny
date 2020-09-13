@@ -28,7 +28,7 @@ ui_esquisse <- function(id) {
           id = ns("plot_esquisse"),
           header = FALSE,
           choose_data = FALSE
-        )
+        ) %>% withSpinner()
       )
     )
   )

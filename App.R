@@ -14,9 +14,16 @@ ui <- dashboardPagePlus(
     sidebarMenu(
       id = "tabs",
       # Menu Lateral 
-      menuItem("Tabelas", icon = icon("table"),
-               menuSubItem("DT", tabName = "tab_tabela_dt")),
-      menuItem("Esquisse", tabName = "tab_esquisse", icon = icon("chart-line"))
+      menuItem(
+        "Tabelas", 
+        icon = icon("table"),
+        menuSubItem("DT", tabName = "tab_tabela_dt")
+      ),
+      menuItem(
+        "Esquisse", 
+        tabName = "tab_esquisse", 
+        icon = icon("chart-line")
+      )
     )
   ),
   body

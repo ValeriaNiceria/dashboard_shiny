@@ -5,11 +5,13 @@ ui_tabela_dt <- function(id) {
   
   tabItem(
     tabName = "tab_tabela_dt",  
+    class="active",
     style="min-height: 1000px;",
     fluidRow(
-      column(
+      box(
         width = 12,
-        h3(class="text-center", "Olá!")
+        title = "Tabela simples",
+        withSpinner(dataTableOutput(ns("tabela_simples")))
       )
     )
   )
